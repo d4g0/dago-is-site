@@ -1,4 +1,4 @@
-import { bot } from "../utils/bot_api_service";
+import { bot } from "./bot_api_service";
 
 export default eventHandler( async (event) => {
   console.log("api message hit");
