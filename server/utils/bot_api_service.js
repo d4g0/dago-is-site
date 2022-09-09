@@ -1,12 +1,12 @@
 import { telegramIdsStrToArray } from "./utils";
-import { $fetch } from "ohmyfetch";
+// import { $fetch } from "ohmyfetch";
 
 /**
  * Env
  *  */
-const ADMINISTRATORS_IDS = process.env.ADMINISTRATORS_IDS;
-const SYSTEM_ADMINISTRATOR_IDS = process.env.SYSTEM_ADMINISTRATOR_IDS;
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const ADMINISTRATORS_IDS = useRuntimeConfig().ADMINISTRATORS_IDS;
+const SYSTEM_ADMINISTRATOR_IDS = useRuntimeConfig().SYSTEM_ADMINISTRATOR_IDS;
+const TELEGRAM_BOT_TOKEN = useRuntimeConfig().TELEGRAM_BOT_TOKEN;
 /**
  * Globals
  */
@@ -19,8 +19,8 @@ var tb_api_send_msg_url = null;
  * Loads Env for bot api calls
  */
 function configure() {
-  subscribers = telegramIdsStrToArray(ADMINISTRATORS_IDS);
-  beacon_subscribers = telegramIdsStrToArray(SYSTEM_ADMINISTRATOR_IDS);
+  subscribers = telegramIdsStrToArray(String(ADMINISTRATORS_IDS));
+  beacon_subscribers = telegramIdsStrToArray(String(SYSTEM_ADMINISTRATOR_IDS));
   bot_token = TELEGRAM_BOT_TOKEN;
   tb_api_send_msg_url = `https://api.telegram.org/bot${bot_token}/sendMessage`;
 

@@ -24,34 +24,43 @@
     </form>
 
     <div
-      class="fixed bottom-0 left-0 w-full h-auto border-red-500 border-t-4 p-[30px]  min-h-[200px] bg-red-100"
+      class="fixed bottom-0 left-0 w-full h-auto border-red-500 border-t-4 p-[30px] min-h-[200px] bg-red-100"
       v-if="fetch_error"
     >
       <code class="text-red-800">{{ fetch_error }}</code>
     </div>
 
     <div
-      class="fixed bottom-0 left-0 w-full h-auto border-blue-500 border-t-4 p-[30px]  min-h-[200px] bg-blue-100"
-      v-if="!fetch_error && form_sended"
+      class="fixed bottom-0 left-0 w-full h-auto border-blue-500 border-t-4 p-[30px] min-h-[200px] bg-blue-100"
+      v-if="form_sended"
     >
       <code class="text-blue-800">Message recived</code>
     </div>
-    
   </div>
 </template>
 
 <script setup>
-import { usePostQuery } from "./composables/usePostQuery";
+import { usePostQuery_with_throw } from "./composables/usePostQuery";
 const msg_form = ref("");
 const msg = ref("");
 const form_sended = ref(false);
-const { fetch_error, is_fetching, load } = usePostQuery();
+const fetch_error = ref(false);
+
+const { is_fetching, load } = usePostQuery_with_throw();
 async function onSubmit() {
-  form_sended.value = true;
+  form_sended.value = false;
+  fetch_error.value = false;
   const data = {
     message: msg.value,
   };
-  await load("/api/message", data);
-  form_sended.value = true;
+  try {
+    const res = await load("/api/message", data);
+    console.log({ res });
+    form_sended.value = true;
+  } catch (error) {
+    is_fetching.value =
+    console.error(error);
+    fetch_error.value = error;
+  }
 }
 </script>

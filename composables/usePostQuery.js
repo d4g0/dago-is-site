@@ -35,28 +35,34 @@ export function usePostQuery() {
   };
 }
 
-// export function usePostQuery() {
-//   const is_fetching = ref(false);
-//   const fetch_error = ref(false);
-//   async function load(url, data) {
-//     fetch_error.value = false;
-//     is_fetching.value = true;
-//     const res = await fetch(url, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json"
-//       },
-//       body: JSON.stringify(data)
-//     });
+/**
+ * Post Query that throws
+ * @throws Error 
+ * @returns 
+ */
+export function usePostQuery_with_throw() {
+  const is_fetching = ref(false);
+  async function load(url, data) {
+    is_fetching.value = true;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
 
-//     const result = await res.json();
-//     is_fetching.value = false;
-//     return result;
-//   }
+    if(!res.ok){
+      console.log({res})
+      throw new Error('Net error')
+    }
+    const result = await res.json();
+    is_fetching.value = false;
+    return result;
+  }
 
-//   return {
-//     is_fetching,
-//     fetch_error,
-//     load
-//   };
-// }
+  return {
+    is_fetching,
+    load
+  };
+}
