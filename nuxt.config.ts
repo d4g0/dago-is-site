@@ -8,4 +8,7 @@ export default defineNuxtConfig({
     ADMINISTRATORS_IDS: "",
     SYSTEM_ADMINISTRATOR_IDS: "",
   },
+  nitro: {
+    preset: "vercel",
+  },
 });
