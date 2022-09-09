@@ -24,7 +24,7 @@ function configure() {
   bot_token = TELEGRAM_BOT_TOKEN;
   tb_api_send_msg_url = `https://api.telegram.org/bot${bot_token}/sendMessage`;
 
-  console.log("Ready to notify to ", subscribers);
+  // console.log("Ready to notify to ", subscribers);
 }
 
 async function send_message(chat_id, message) {
